@@ -3,35 +3,37 @@
 //
 
 #include <stdio.h>
-String getValueAsString(int value);
+
+char getValueAsString(int number);
 
 int main() {
-    getValueAsString(10)
+    int input;
+    printf("Enter a number (0-12):\n");
+    scanf("%d",&input);
+    char a = getValueAsString(input);
 }
 
-String getValueAsString(int value){
-    char result;
-    if value < 0 || value > 12){
-    return printf("The value of the number is not correct!")
-}
-    switch (value){
-        case '0':
+char getValueAsString(int number) {
+    char result='b';
+
+    switch (number) {
+        case 0:
             result = 'A';
             break;
-        case '9':
+        case 9:
             result = 'T';
             break;
-        case '10':
+        case 10:
             result = 'J';
             break;
-        case '11':
+        case 11:
             result = 'D';
             break;
-        case '12':
+        case 12:
             result = 'K';
             break;
         default:
-            result = 'value';
+            result = (number+1)+'0';
             break;
     }
 
