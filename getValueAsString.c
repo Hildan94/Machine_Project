@@ -11,6 +11,9 @@ int main() {
 
 String getValueAsString(int value){
     char result;
+    if value < 0 || value > 12){
+    return printf("The value of the number is not correct!")
+}
     switch (value){
         case '0':
             result = 'A';
