@@ -8,14 +8,14 @@
 
 int main() {
     const char *filename = "Deck.txt";
-    char input[42];
+    char input[41];
     printf("Enter a file name:\n");
     /*
      * C:\\Users\\Hildibjorg\\Desktop\\Deck.txt
      */
 
     fgets(input,sizeof(input),stdin);
-
+    printf("%s \n",input);
 
 
     FILE *infile = fopen(input, "r");
