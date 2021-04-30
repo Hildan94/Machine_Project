@@ -13,20 +13,25 @@ struct card{
     int value;
     bool visible;
 };
+struct card *cards[7];
 
+struct card deck[];
 int main(int argc, char *argv[]){
     
     newdeck();
     printdeck();
     int a = 26;
     int *split = &a;
-
-    sr();//si(split);
-    printdeck();
+    struct card *card = &deck[3];
+    movecard(0,card);
+    printf("%d%c\n",cards[0]->value, cards[0]->suit);
+    card = & deck[1];
+    movecard(0,card);
+    printf("%d%c\n",cards[0]->value, cards[0]->suit);
+    printf("%d%c\n",cards[0]->next->value, cards[0]->next->suit);
+    //sr();//si(split);
+    //printdeck();
 }
-struct card *cards[7];
-
-struct card deck[];
 
 int decksize = 0;
 void newdeck(){
@@ -119,9 +124,29 @@ void sr(){
         deck[h] = shuffled[h];
     }
 }
-void movecard();
+void movecard(int position, struct card *card);
 // this takes a position 0 indexed value from 0-6 for C1-C7. this position is where we move the card to. it also takes the card you want to move. 
-void movecard(int position, struct card card){
+void movecard(int position, struct card *card){
     //we need to dereference the card 
-
+    if(card->last!=NULL){
+        card->last->next =NULL;
+        card->last =NULL;
+    }
+    if(cards[position]==NULL){
+        cards[position] = card;
+        printf("hey %d%c\n",cards[position]->value, cards[position]->suit);
+        return;
+    }
+    struct card *next = cards[position]; 
+    printf("hey %d%c\n",next->value, next->suit);
+    while (true){
+        if(next->next==NULL){
+            next->next =card;
+            card->last = next; 
+            return;
+        }
+        else {
+            next = next->next;
+        }
+    }
 }
