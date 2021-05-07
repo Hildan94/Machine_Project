@@ -6,6 +6,11 @@
 #define MIN(a,b) (((a)<(b)) ? (a) : (b))
 void newdeck();
 void printdeck();
+struct card * findcard(int value, char suit);
+int cardtopos(struct card *card); 
+void si(int *split);
+void sr();
+void movecard(int position, struct card *card);
 struct card{ // we create a struct for a double linked list. This struct represents each card in a deck. 
     struct card *last;
     struct card *next;
@@ -15,7 +20,7 @@ struct card{ // we create a struct for a double linked list. This struct represe
     bool visible;   // The visible variable will be used to find out which cards we should show at the start of a game.
                     // It is not strictly needed but it may make programming easier.
 };
-struct card *cards[7];
+struct card *cards[7]; //this repressents the different piles in the game
 
 struct card deck[];
 int main(int argc, char *argv[]){
@@ -31,7 +36,7 @@ int main(int argc, char *argv[]){
     movecard(2,card);
     printf("%d%c\n",cards[2]->value, cards[2]->suit);
     printf("%d%c\n",cards[2]->next->value, cards[2]->next->suit);
-    printf("pos = %d\n",cardtopos(card));
+    printf("pos = %d\n",cardtopos(findcard(2,C)));
     //sr();//si(split);
     //printdeck();
 }
@@ -58,7 +63,7 @@ void printdeck(){
     }
 }
 
-void si(int *split);// This function is supposed to mix the card. It takes a pointer to an integer as an input. 
+                    // This function is supposed to mix the card. It takes a pointer to an integer as an input. 
                     // Because this is a pointer it's possible to input a NULL pointer to the function.
                     // If the input is NULL this function will randomly select a valid value for split.
 
@@ -103,8 +108,6 @@ void si(int *split){
     }
 }
 
-void sr();
-
 void sr(){
     //first we create the shuffled pile. We also initialize our seed for the rand command.
     struct card shuffled[decksize];
@@ -129,7 +132,6 @@ void sr(){
         deck[h] = shuffled[h];
     }
 }
-void movecard(int position, struct card *card);
 // this takes a position 0 indexed value from 0-6 for C1-C7. this position is where we move the card to. it also takes the card you want to move. 
 void movecard(int position, struct card *card){
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
@@ -155,7 +157,7 @@ void movecard(int position, struct card *card){
         }
     }
 }
-int cardtopos(struct card *card); // this method takes a card and then returns the card's position. Meaning it returns 0-6 depending on which list the card is a part of.
+// this method takes a card and then returns the card's position. Meaning it returns 0-6 depending on which list the card is a part of.
 int cardtopos(struct card *card){
     //We can use the double linked list structure to travel in reverse from the card to the tail.
     struct card *prev = card;
@@ -170,6 +172,14 @@ int cardtopos(struct card *card){
     for(int i =0; i<7; i++){
         if (cards[i] == prev){
             return i;
+        }
+    }
+}
+
+struct card * findcard(int value, char suit){
+    for(int i=0; i<decksize; i++){
+        if(deck[i].value==value && deck[i].suit==suit){
+            return &deck[i];
         }
     }
 }
