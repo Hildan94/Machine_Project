@@ -6,4 +6,4 @@ set(CMAKE_C_STANDARD 11)
 #add_executable(Machine_Project
  #       main.c)
 add_executable(Machine_Project
-        loadFile.c)
+        LD.c)

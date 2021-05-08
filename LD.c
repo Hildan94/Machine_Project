@@ -4,15 +4,30 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <stdlib.h>
+
+// Defined variables:
+#define SIZE 20
+
+ // Function declarations
+
+ //
+ bool LD();
 
 
 
-    int main(int argc, char *argv[]){
 
+int main() {
+
+    LD();
+
+
+}
+
+bool LD (){
     FILE *infile;
-    int c;
     char input[100] = "";
 
     printf("Enter a file name:\n");
@@ -39,9 +54,10 @@
     // check if all cards are present in the deck
 
 
-/*
+
+
     // prints the content of the given file:
-    printf("got here");
+    /*
     while(1) {
         c = fgetc(infile);
         if(feof(infile)){
@@ -52,5 +68,6 @@
 */
 
     fclose(infile);
+    printf("OK");
     return(0);
 }
