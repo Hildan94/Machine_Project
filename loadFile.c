@@ -20,13 +20,14 @@ int main() {
     //opens the file and saves the content in input
     infile = fopen(input, "r");
 
-    //Print error message if loading the file fails
+    //if given filepath is wrong/not assigned assign the standard deck pile
     if(infile == NULL){
+        infile = fopen("Deck.txt", "r");
         printf("Error in opening file");
-        return(-1);
     }
 
     // prints the content of the given file:
+    printf("got here");
     while(1) {
         c = fgetc(infile);
         if(feof(infile)){
