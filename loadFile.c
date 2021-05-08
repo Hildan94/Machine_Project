@@ -2,11 +2,15 @@
 // Created by Hildibjorg on 23.04.2021.
 //
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
+#include <time.h>
 
-int main() {
+
+
+    int main(int argc, char *argv[]){
+
     FILE *infile;
     int c;
     char input[100] = "";
@@ -17,15 +21,25 @@ int main() {
     //scans and saves the given filepath
     scanf("%s",&input);
 
-    //opens the file and saves the content in input
+    //opens and reads the file
     infile = fopen(input, "r");
 
-    //if given filepath is wrong/not assigned assign the standard deck pile
+    //if no filepath is given assign the standard deck
+    if(&infile == NULL){
+        //find ud af hvordan man assigner decket
+        //*infile = *deck;
+    }
+
+    //if given filepath is wrong/not assigned assign the standard deck pile and display OK to console
     if(infile == NULL){
-        infile = fopen("Deck.txt", "r");
         printf("Error in opening file");
     }
 
+
+    // check if all cards are present in the deck
+
+
+/*
     // prints the content of the given file:
     printf("got here");
     while(1) {
@@ -35,7 +49,7 @@ int main() {
         }
         printf("%c",c);
     }
-
+*/
 
     fclose(infile);
     return(0);
