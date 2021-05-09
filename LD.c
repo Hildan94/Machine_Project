@@ -61,7 +61,7 @@ void LD(char *fileName) {
                 continue;
             }
             count++;
-            printf("%c", klo);
+            //printf("%c", klo);
             if (count % 2 == 0) {
                 switch (klo) {
                     case 'A':
