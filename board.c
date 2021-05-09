@@ -6,6 +6,8 @@
 #define MIN(a,b) (((a)<(b)) ? (a) : (b))
 void newdeck();
 void printdeck();
+int CommandInput();
+static char input[50]; //Used for CommandInput
 struct card * findcard(int value, char suit);
 int cardtopos(struct card *card); 
 void si(int *split);
@@ -182,4 +184,64 @@ struct card * findcard(int value, char suit){
             return &deck[i];
         }
     }
+}
+
+int CommandInput() {
+    //Used to read the input
+    if(fgets(input, 50, stdin) == NULL){
+        return 0;
+    }
+
+    //Sets the last index to 0 in order to compare strings properly
+    if(input[strlen(input)-1] == '\n') {
+        input[strlen(input)-1] = 0;
+    }
+
+    //Commands with only two characters
+    if(strcmp(input, "SW") == 0) {
+        printf("SW\n");
+    }
+    if (strcmp(input, "LD") == 0) {
+        printf("LD\n");
+    }
+    if(strcmp(input, "SI") == 0) {
+        printf("SI\n");
+    }
+    if(strcmp(input, "SR") == 0) {
+        printf("SR\n");
+    }
+    if(strcmp(input, "SD") == 0) {
+        printf("SD\n");
+    }
+    if(strcmp(input, "QQ") == 0) {
+        exit(0);
+    }
+    if(strcmp(input, "P") == 0) {
+        printf("P\n");
+    }
+    if(strcmp(input, "Q") == 0) {
+        printf("Q\n");
+    }
+
+    //Command "LD <filename>" where filename is specified (aka. not empty)
+    if(input[0] == 'L' && input[1] == 'D' && input[2] == ' '
+       && strlen(input) > 4){
+        printf("LD filename\n");
+    }
+
+    //SI <split> where split is specified
+    if(input[0] == 'S' && input[1] == 'I' && input[2] == ' '
+       && strlen(input) > 4){
+        printf("SI split\n");
+    }
+
+    //SD <filename> where filename is specified
+    if(input[0] == 'S' && input[1] == 'D' && input[2] == ' '
+       && strlen(input) > 4){
+        printf("SD filename\n");
+    }
+
+    //Missing Game moves
+
+    return 0;
 }
