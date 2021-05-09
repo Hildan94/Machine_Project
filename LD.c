@@ -1,4 +1,3 @@
-
 //
 // Created by Hildibjorg on 09.05.2021.
 //
@@ -16,8 +15,7 @@ struct temp cur_card[52];
 bool LD(char *fileName);
 
 
-
-
+//main:
 int main (void) {
     char fileName[100] = "C:\\\\Users\\\\Hildibjorg\\\\Desktop\\\\Deck.txt";
     LD(fileName);
