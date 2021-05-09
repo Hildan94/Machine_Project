@@ -154,6 +154,9 @@ void SW() {
 
     int number[6] = {8, 8, 8, 7, 7, 7};
     setToDeck(number);
+
+    //should check if a card deck is assigned:
+
     for (int i = 0; i < 4; i++){
         fdeck[i].visible = false;
     }
