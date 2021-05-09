@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+void newdeck();
+
 struct card { // we create a struct for a double linked list. This struct represents each card in a deck.
     struct card *last;
     struct card *next;
@@ -22,18 +24,42 @@ void LD(char *fileName);
 
 //main:
 int main(void) {
-    char fileName[100] = "C:\\\\Users\\\\Hildibjorg\\\\Desktop\\\\Deck.txt";
+    char fileName[100] = "";
     LD(fileName);
 }
 
 
 //functions
+int decksize = 0;
+void newdeck() {
+    // to initialize we first want to create all cards. We'll be storing them in the array deck.
+    char suits[] = {'C', 'D', 'H', 'S'};
+    decksize = 52;
+    int k = 0;
+    for (int i = 0; i <= 3; i++) {
+        for (int j = 1; j <= 13; j++) {
+            struct card tempcard;
+            tempcard.suit = suits[i];
+            tempcard.value = j;
+            tempcard.last = NULL;
+            tempcard.next = NULL;
+            tempcard.visible = false;
+            deck[k] = tempcard;
+            k++;
+        }
+    }
+}
 
 void LD(char *fileName) {
 
     //opens the file of given pathname
     FILE *fptr = fopen(fileName, "r");
 
+    if (fileName[0] == '\0' )
+    {
+        newdeck();
+        return;
+    }
 
     //should have a way
     if (fptr == NULL) {
