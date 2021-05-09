@@ -186,6 +186,16 @@ struct card * findcard(int value, char suit){
     }
 }
 
+void sd() {
+    //For loop over alle cards i deck (fra 0 til decksize)
+//feof måske. Genererer en ny fil, hvis den ikke allerede eksisterer
+//Gemme cards i en fil
+
+    for(int i = 0, i <= decksize, i++) {
+       // deck[i]
+    }
+}
+
 int CommandInput() {
     //Used to read the input
     if(fgets(input, 50, stdin) == NULL){
