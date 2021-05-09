@@ -1,73 +1,88 @@
+
 //
-// Created by Hildibjorg on 23.04.2021.
+// Created by Hildibjorg on 09.05.2021.
 //
 
-#include <stdbool.h>
 #include <stdio.h>
-#include <time.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdbool.h>
 
-// Defined variables:
-#define SIZE 20
+struct temp{
+    char card[52];
+};
 
- // Function declarations
+struct temp cur_card[52];
 
- //
- bool LD();
-
+// declare functions:
+bool LD(char *fileName);
 
 
 
-int main() {
 
-    LD();
-
-
+int main (void) {
+    char fileName[100] = "C:\\\\Users\\\\Hildibjorg\\\\Desktop\\\\Deck.txt";
+    LD(fileName);
 }
 
-bool LD (){
-    FILE *infile;
-    char input[100] = "";
 
-    printf("Enter a file name:\n");
-    // Test path: C:\\Users\\Hildibjorg\\Desktop\\Deck.txt
+//functions
 
-    //scans and saves the given filepath
-    scanf("%s",&input);
-
-    //opens and reads the file
-    infile = fopen(input, "r");
-
-    //if no filepath is given assign the standard deck
-    if(&infile == NULL){
-        //find ud af hvordan man assigner decket
-        //*infile = *deck;
-    }
-
-    //if given filepath is wrong/not assigned assign the standard deck pile and display OK to console
-    if(infile == NULL){
-        printf("Error in opening file");
-    }
-
-
-    // check if all cards are present in the deck
-
-
-
-
-    // prints the content of the given file:
+bool LD (char *fileName){
+    //Currently sets the path from user input but should be changed to given string
     /*
-    while(1) {
-        c = fgetc(infile);
-        if(feof(infile)){
-            break;
-        }
-        printf("%c",c);
-    }
-*/
+    printf(" Input the filename to be opened : ");
+    scanf("%s", fileName);
+    */
 
-    fclose(infile);
+    //opens the file of given pathname
+    FILE *fptr = fopen(fileName, "r");
+
+    //If the file is not found print error
+    if (fptr == NULL) {
+        printf("Error when opening the file \n");
+        return 1;
+
+    }
+
+    //should have a way
+    if (fptr == NULL) {
+        printf("File does not exist \n");
+        return 1;
+
+    }
+
+    //start assigning the deck from file
+    else {
+        char ch;
+        int count = 0;
+
+        do {
+            ch = fgetc(fptr);
+            if (ch == '\n') count++;
+        } while (ch != EOF);
+
+        rewind(fptr);
+
+        int temp;
+        fscanf(fptr, "%d", &temp);
+
+        //store the lines from the file in given struct:
+        for (int i = 0; i <= count; i++){
+            fscanf(fptr,"%s\n", cur_card[i].card);
+            //printf("%s\n", cur_card[i].card);
+        }
+
+        //There should be a check on whether or not the contents of the file
+        //are okay!
+
+        fclose(fptr);
+    }
+//print out all of the content of the struct:
+/*
+    for (int i = 0; i < 52; i++){
+        printf("%s\n", cur_card[i].card);
+    }
+  */
+    //if the file is read and stored display OK:
     printf("OK");
-    return(0);
+    return 0;
 }
