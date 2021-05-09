@@ -180,9 +180,11 @@ void SW() {
                 printf("\t");
                 pile = (pile + 1) % 7;
                 if (pile == 0 ) {
-                    //check whether F-pile should be printed
+                    //check whether F-pile should be printed which is at the end of line 0, 2, 4 and 6
                     if (linenr % 2 == 0){
                         printf("\t\t");
+
+                        //check if card is set to being visible or not
                         if(!deck[i].visible){
                             printf("[]\t");
                             printf("%c%d" ,'F',fcount);
@@ -195,6 +197,7 @@ void SW() {
                             fcount++;
                         }
                     }
+                    //reached end of line so print new line
                     printf("\n");
                     linenr = (linenr + 1);
                 }
@@ -210,8 +213,10 @@ void SW() {
                 }
                 pile = (pile + 1) % 7;
                 if (pile == 0) {
-                    //check whether F-pile should be printed
+                    //check whether F-pile should be printed which is at the end of line 0, 2, 4 and 6
                     if (linenr % 2 == 0){
+
+                        //check if card is set to being visible or not
                         printf("\t\t");
                         if(!deck[i].visible){
                             printf("[]\t");
@@ -226,6 +231,7 @@ void SW() {
                             fcount++;
                         }
                     }
+                    //reached end of line so print new line
                     printf("\n");
                     linenr = (linenr + 1);
                 }
