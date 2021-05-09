@@ -158,6 +158,10 @@ void SW() {
         fdeck[i].visible = false;
     }
 
+    for (int i = 0; i < 52; i++){
+        deck[i].visible = true;
+    }
+
     int cpile[7] = {8,8,8,7,7,7,7};
 
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n"
@@ -181,6 +185,12 @@ void SW() {
                             printf("%c%d" ,'F',fcount);
                             fcount++;
                         }
+                        else{
+                            printf("[]\t");
+                            printf("\t");
+                            printf("%c%d" ,'F',fcount);
+                            fcount++;
+                        }
                     }
                     printf("\n");
                     linenr = (linenr + 1);
@@ -191,6 +201,10 @@ void SW() {
                 if(!deck[i].visible){
                     printf("[]\t");
                 }
+                else{
+                    printf("%c%c",getValueAsString(deck[i].value),deck[i].suit);
+                    printf("\t");
+                }
                 pile = (pile + 1) % 7;
                 if (pile == 0) {
                     //check whether F-pile should be printed
@@ -198,6 +212,13 @@ void SW() {
                         printf("\t\t");
                         if(!deck[i].visible){
                             printf("[]\t");
+                            printf("%c%d" ,'F',fcount);
+                            printf("\t");
+                            fcount++;
+                        }
+                        else{
+                            printf("[]\t");
+                            printf("\t");
                             printf("%c%d" ,'F',fcount);
                             fcount++;
                         }
