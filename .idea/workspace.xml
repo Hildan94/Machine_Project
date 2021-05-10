@@ -9,10 +9,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3be1baee-cf90-4827-a742-4053ee8d0c43" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Machine_Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board.c" beforeDir="false" afterPath="$PROJECT_DIR$/board.c" afterDir="false" />
+    <list default="true" id="3be1baee-cf90-4827-a742-4053ee8d0c43" name="Default Changelist" comment="Started on SD">
+      <change afterPath="$PROJECT_DIR$/sd.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +21,11 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1rFI3DxSkARIwLWa4Z1vpV8Yri6" />
@@ -72,6 +75,7 @@
       <updated>1618565212499</updated>
       <workItem from="1618565216648" duration="106000" />
       <workItem from="1618565376033" duration="1547000" />
+      <workItem from="1620647519050" duration="152000" />
     </task>
     <task id="LOCAL−00001" summary="Added .gitignore and other studd">
       <created>1618565411870</created>
