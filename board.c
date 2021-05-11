@@ -297,6 +297,7 @@ int CommandInput() {
 //LD takes a pointer to a filename. This filename variable needs to be the complete path to the file, or NULL if you would like to start a new deck. 
 //If the filename is not valid an error message is printed.
 void LD(char *fileName) {
+    int size = 0;
 
     //opens the file of given pathname
     FILE *fptr = fopen(fileName, "r");
@@ -315,7 +316,6 @@ void LD(char *fileName) {
 
         //start assigning the deck from file
     else {
-        char ch;
         char klo;
         int i = 0;
         int count = 1;
@@ -350,16 +350,29 @@ void LD(char *fileName) {
                 deck[i].visible = false;
                 deck[i].next = NULL;
                 deck[i].last = NULL;
+                size++;
             }
 
         }
 
         fclose(fptr);
     }
+    //Set the decksize of the given deck:
+    decksize = size;
 
 //check if all cards are present
+    int countDeckSize = 0;
+    for (int i = 0; i < size; i++)
+    {
+        countDeckSize = countDeckSize++;
+//    printf("%d \n",count);
+    }
+    if (countDeckSize < 52){
+        printf("The file does not contain 52 cards! \n");
+        return;
+    }
 
-  printf("\nOK");
+  //printf("\nOK");
     return;
 }
 //SORRY. This is a very bad implementation of P. It is  over 300 lines long, and very complex, and likely riddled with bugs. 
@@ -421,7 +434,7 @@ void P(){
         }
         printboard(); // printboard();
         if(fgets(input, 50, stdin) == NULL){
-            return 0;
+            return;
         }
 
         //Sets the last index to 0 in order to compare strings properly
