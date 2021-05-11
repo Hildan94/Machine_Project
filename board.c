@@ -10,7 +10,7 @@ void printdeck();
 int CommandInput();
 static char input[50]; //Used for CommandInput
 struct card * findcard(int value, char suit);
-int cardtopos(struct card *card); 
+int cardtopos(struct card *card);
 void game();
 int valueFromChar(char value);
 void si(int *split);
@@ -28,23 +28,24 @@ void printboard();
 void SW();
 void srTest();
 void siTest();
+void sdTest();
 
 struct card * getBottomCard(int pile);
-struct card{ // we create a struct for a double linked list. This struct represents each card in a deck. 
+struct card{ // we create a struct for a double linked list. This struct represents each card in a deck.
     struct card *last;
     struct card *next;
-    char suit;  // A card has a suit and a value. The suit is kept as a char because we only need to compare and print this value. 
-                // A char is fine for the comparison because we only need to check if two chars are the same
+    char suit;  // A card has a suit and a value. The suit is kept as a char because we only need to compare and print this value.
+    // A char is fine for the comparison because we only need to check if two chars are the same
     int value;  // As supposed to the suit we actually need to compare values with operators like "<" and ">=" meaning it's easier to keep it as an integer.
     bool visible;   // The visible variable will be used to find out which cards we should show at the start of a game.
-                    // It is not strictly needed but it may make programming easier.
+    // It is not strictly needed but it may make programming easier.
 };
 struct card *cards[7]; //this repressents the different piles in the game
 struct card *foundation[4];// This repressants the foundation piles.
 
 struct card deck[];//this represents the deck.
 int main(int argc, char *argv[]){
-    game();
+
 
     //newdeck();
     //printdeck();
@@ -82,7 +83,7 @@ void newdeck(){//this method is called when you want a new deck. It'll create an
             tempcard.visible = false;
             deck[k]= tempcard;
             k++;
-        }        
+        }
     }
 }
 void printdeck(){//this method prints each card in the deck.
@@ -91,9 +92,9 @@ void printdeck(){//this method prints each card in the deck.
     }
 }
 
-                    // This function is supposed to mix the deck. It takes a pointer to an integer as an input. 
-                    // Because this is a pointer it's possible to input a NULL pointer to the function.
-                    // If the input is NULL this function will randomly select a valid value for split.
+// This function is supposed to mix the deck. It takes a pointer to an integer as an input.
+// Because this is a pointer it's possible to input a NULL pointer to the function.
+// If the input is NULL this function will randomly select a valid value for split.
 
 void si(int *split){
     //printf("%d \n", decksize);
@@ -112,10 +113,10 @@ void si(int *split){
     struct card shuffled[52];
     int nextcard = 1;   // next card is used to find the next card in both splits.
     int min = MIN(*split, 52-*split); //We use min here because by computing this it makes it possible to split the deck without actually creating another array.
-                                            // min denotes how far we have to travel down the two splits until there are no more cards in one of them.
+    // min denotes how far we have to travel down the two splits until there are no more cards in one of them.
     for (int i = 52-min*2; i<52; i=i+2){ // we use i to find the position we want to shuffle a card to, and we do two cards each loop.
         shuffled[i]=deck[52-*split-nextcard]; //The first split starts from the card split down from the top of the deck.
-        shuffled[i+1]=deck[52-nextcard]; // The second card is chosen from the top of the deck. 
+        shuffled[i+1]=deck[52-nextcard]; // The second card is chosen from the top of the deck.
         nextcard++;
     }// when there are no more cards in one of the splits we have to insert the rest of the cards at the bottom of the shuffled pile.
     if(*split<=52/2){// The method is different depending on which split has cards left.
@@ -149,7 +150,7 @@ void sr(){
     }
     for(int i = 0; i<52; i++){
         while(true){ // because we are doing random positions we have no way of knowing whether a random position chosen has alreade been taken.
-                     // This means we'll have to continue choosing new positions until we find an available space.
+            // This means we'll have to continue choosing new positions until we find an available space.
             randpos =(rand()%(52));
             if(shuffled[randpos].suit==NULL){ // we check suit because the array doesn't contain pointers, so the best way to check whether it has been taken is by checking the values.
                 shuffled[randpos]=deck[i];
@@ -161,7 +162,7 @@ void sr(){
         deck[h] = shuffled[h];
     }
 }
-// this takes a position 0 indexed value from 0-6 for C1-C7. this position is where we move the card to. it also takes the card you want to move. 
+// this takes a position 0 indexed value from 0-6 for C1-C7. this position is where we move the card to. it also takes the card you want to move.
 void movecard(int position, struct card *card){
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
     if(card->last!=NULL){
@@ -178,11 +179,11 @@ void movecard(int position, struct card *card){
         return;
     }
     //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
-    struct card *next = cards[position]; 
+    struct card *next = cards[position];
     while (true){
         if(next->next==NULL){//when we reach the head we connect the card to the head as follows.
             next->next =card;
-            card->last = next; 
+            card->last = next;
             return;
         }
         else {
@@ -195,7 +196,7 @@ int cardtopos(struct card *card){
     //We can use the double linked list structure to travel in reverse from the card to the tail.
     struct card *prev = card;
     while(true){
-        
+
         if(prev->last == NULL){
             break;
         }
@@ -242,7 +243,7 @@ int CommandInput() {
         P();
     }
 
-    //Command "LD <filename>" where filename is specified (aka. not empty)
+        //Command "LD <filename>" where filename is specified (aka. not empty)
     else if(input[0] == 'L' && input[1] == 'D'){
         char filename[47];
         for (int j = 0; j< 47; j++){
@@ -261,7 +262,7 @@ int CommandInput() {
         int piles[6] = {8,8,8,7,7,7};
         setToDeck(piles);
         printboard();
-        
+
         //printf("LD filename\n");
     }
 
@@ -294,7 +295,7 @@ int CommandInput() {
 
     return 0;
 }
-//LD takes a pointer to a filename. This filename variable needs to be the complete path to the file, or NULL if you would like to start a new deck. 
+//LD takes a pointer to a filename. This filename variable needs to be the complete path to the file, or NULL if you would like to start a new deck.
 //If the filename is not valid an error message is printed.
 void LD(char *fileName) {
     int size = 0;
@@ -375,10 +376,10 @@ void LD(char *fileName) {
         return;
     }
 
-  //printf("\nOK");
+    //printf("\nOK");
     return;
 }
-//SORRY. This is a very bad implementation of P. It is  over 300 lines long, and very complex, and likely riddled with bugs. 
+//SORRY. This is a very bad implementation of P. It is  over 300 lines long, and very complex, and likely riddled with bugs.
 //We had a big timecrunch because members of the group spend much longer than agreed upon on some of the methods I wanted to use for testing purposes.
 //I had also expected to be able to delegate parts of the method for other people to finnish, but I had to make it alone.
 
@@ -386,13 +387,13 @@ void LD(char *fileName) {
 /*"There are 3 main parts in the function. The first - before the while loop which contains the actual game - is the initialization part.
   In this part we start by distributing the cards onto the board, and setting the visibility of the individual cards.
   The next part is the input handling. Here we first check whether the input is 'Q' in which case we break the while loop.
-  Otherwise we split the message in a \textit{from}, and \textit{to} string. 
-  These messages are split when they encounter the '->' arrow symbol, which is a part of the game move format. 
+  Otherwise we split the message in a \textit{from}, and \textit{to} string.
+  These messages are split when they encounter the '->' arrow symbol, which is a part of the game move format.
   Everything left of the arrow is added to the \textit{from} string, and everything right of it is likewise added to the \textit{to} string. \
   The last part is where the complexity increases. The purpose of this part is to check the validity of moves, and do the moves if they are valid.
   Here we have three sections. Moves from the foundation pile to the columns, moves from the columns to the foundation pile, and moves from the columns to other columns.
   Each of these types of moves have different validation criteria."*/
-  //just to specify. The function returns nothing, and handles all the game logic and setup. 
+//just to specify. The function returns nothing, and handles all the game logic and setup.
 
 void P(){
     //First we initialize the game board
@@ -431,7 +432,7 @@ void P(){
     cards[6]->next->next->next->next->visible=false;
     cards[6]->next->next->next->next->next->visible=false;
     while(true){//this is the main loop.
-        if(decksize<=0){//if all the cards are in the foundation piles decksize should be 1 because we degate it by 1 each time. 
+        if(decksize<=0){//if all the cards are in the foundation piles decksize should be 1 because we degate it by 1 each time.
             printf("\n You have won\n");
             break;
         }
@@ -478,7 +479,7 @@ void P(){
                 to[h]=input[j];
                 j++;
             }
-            
+
             //if from len is 2 then it should represent a pile, if it is 5 then it should represent a pile followed by the card that has to be moved.
             int fromlen = strlen(from);
             int tolen = strlen(to);
@@ -493,7 +494,7 @@ void P(){
                 else if(from[4]=='C'|| from[4]=='S'|| from[4]=='H' || from[4]=='D'){
                     //convert chars to integers
                     int pile1 = (int) from[1]-'0'-1;
-                    
+
                     if(cardvalue==0){
                         printf("cards can have values A,T,J,Q,K and 2-9\n");
                         continue;
@@ -651,7 +652,7 @@ void P(){
                         continue;
                     }
                     int cardpos = cardtopos(tempfrom);
-                    
+
                     if(cardpos != pile1){// now we check if the card you are referencing is in the pile you are referencing.
                         printf("you are referencing a card in the wrong pile\n");
                         continue;
@@ -709,21 +710,21 @@ int valueFromChar(char value){
     if(v>1 && v<10){
         return v;
     }
-    return 0;   
+    return 0;
 }
-//This method goes through a column pile specified by "int pile" 0-6 representing C1-C7. When it reaches the bottom it returns the buttom card. 
+//This method goes through a column pile specified by "int pile" 0-6 representing C1-C7. When it reaches the bottom it returns the buttom card.
 //If the pile has no cards, it returns NULL
 struct card * getBottomCard(int pile){
 //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
-    
+
     //if the position in the cards array is empty we can just add the car to the cards array as the tail.
     if(cards[pile]==NULL){
         return NULL;
     }
     //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
-    struct card *next = cards[pile]; 
+    struct card *next = cards[pile];
     while (true){
-        if(next->next==NULL){//when we reach the head we connect the card to the head as follows. 
+        if(next->next==NULL){//when we reach the head we connect the card to the head as follows.
             return next;
         }
         else {
@@ -732,17 +733,17 @@ struct card * getBottomCard(int pile){
     }
 }
 //Because we implemented P late I 3 individual methods that would move cards. This one moves cards from foundations into the column piles.
-//You give the method a position which signifies the column: 0-6 -> C1-C7. And an integer found: 0-3 -> F1-F4. 
+//You give the method a position which signifies the column: 0-6 -> C1-C7. And an integer found: 0-3 -> F1-F4.
 //It then moves the top card from the foundation to the bottom of the column.
 void movefromfound(int position, int found){
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
-    struct card* card = foundation[found]; 
+    struct card* card = foundation[found];
     if(card->next!=NULL){
-        foundation[found] = card->next; 
+        foundation[found] = card->next;
         card->next->last = NULL;
     }
     else{
-        foundation[found] = NULL; 
+        foundation[found] = NULL;
     }
     card->next =NULL;
     card->last =NULL;
@@ -752,11 +753,11 @@ void movefromfound(int position, int found){
         return;
     }
     //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
-    struct card *next = cards[position]; 
+    struct card *next = cards[position];
     while (true){
         if(next->next==NULL){//when we reach the head we connect the card to the head as follows.
             next->next =card;
-            card->last = next; 
+            card->last = next;
             return;
         }
         else {
@@ -766,7 +767,7 @@ void movefromfound(int position, int found){
     decksize++;
 }
 //This one moves cards from column piles into the foundation piles.
-//You give the method a position which signifies the foundation: 0-3 -> F1-F4. And the card you want to have moved to the foundation. 
+//You give the method a position which signifies the foundation: 0-3 -> F1-F4. And the card you want to have moved to the foundation.
 //It then moves the card into the foundation. I didn't have time to think about checking for errors. That is done in the method P();
 void movetofound(int position, struct card* card){
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
@@ -790,7 +791,7 @@ void movetofound(int position, struct card* card){
     decksize--;
 }
 //Set to deck reinitialize all cards so they do not reference each other, afterwards it places the cards into the 7 columns depending on your specifications.
-//the integer array number is used to describe how many cards are to be placed in each pile. The first 6 elements of number correspond to the first six columns C1-C6. 
+//the integer array number is used to describe how many cards are to be placed in each pile. The first 6 elements of number correspond to the first six columns C1-C6.
 //The rest of the cards not specified in the array are placed in column 7.
 // we only check if the total for the first six rows of the number array is more than 52 in which case we return an error.
 
@@ -882,7 +883,7 @@ void SW() {
     printboard();
 }
 //The print board method is used to print the board state. It's not ideal, but the method uses "cpile" to find out how many cards are in each pile. then it prints each card
-//cpile is initialized at the start by traversing the columns. Again it would be better to just do this at runtime but allas. The method prints "[]" if a card is invisible. 
+//cpile is initialized at the start by traversing the columns. Again it would be better to just do this at runtime but allas. The method prints "[]" if a card is invisible.
 void printboard(){
     int cpile[7] = {0,0,0,0,0,0,0};
     //We need to find cpile[] even though this isn't the best way to do it.
@@ -891,7 +892,7 @@ void printboard(){
             continue;
         }
         //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
-        struct card *next = cards[pile]; 
+        struct card *next = cards[pile];
         cpile[pile]++;
         while (true){
             if(next->next==NULL){//when we reach the head we connect the card to the head as follows.
@@ -900,7 +901,7 @@ void printboard(){
             else {
                 next = next->next;
                 cpile[pile]++;
-            }   
+            }
         }
     }
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n"
@@ -983,9 +984,9 @@ void printboard(){
         }
     }
     printf("\n\n"
-         "LAST Command: LD\n"
-         "Message: OK\n"
-         "INPUT >");
+           "LAST Command: LD\n"
+           "Message: OK\n"
+           "INPUT >");
     /*if(foundation[0]!=NULL){
         printf("1 %d%c\n",foundation[0]->value,foundation[0]->suit);
     }
@@ -1034,9 +1035,9 @@ struct card * getPileCard(int pile, int pilenr){
         return NULL;
     }
     //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
-    struct card *next = cards[pile]; 
+    struct card *next = cards[pile];
     while (true){
-        if(pilenr==0 || next->next==NULL){//when we reach the head we connect the card to the head as follows. 
+        if(pilenr==0 || next->next==NULL){//when we reach the head we connect the card to the head as follows.
             return next;
         }
         else {
@@ -1096,4 +1097,12 @@ void siTest() {
     si(split);
     printf("After split \n");
     printdeck();
+}
+
+void sdTest() {
+    newdeck();
+    sr();
+    printf("Expected to be under cards.txt with value + suit \n");
+    printdeck();
+    sd();
 }
