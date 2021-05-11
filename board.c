@@ -336,11 +336,14 @@ void LD(char *fileName) {
                     case 'T':
                         deck[i].value = 10;
                         break;
-                    case 'D':
+                    case 'J':
                         deck[i].value = 11;
                         break;
-                    case 'K':
+                    case 'Q':
                         deck[i].value = 12;
+                        break;
+                    case 'K':
+                        deck[i].value = 13;
                         break;
                     default:
                         deck[i].value = klo - '0';
