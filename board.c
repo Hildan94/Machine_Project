@@ -26,6 +26,8 @@ char getValueAsString(int number);
 struct card * getPileCard(int pile, int pilenr);
 void printboard();
 void SW();
+void srTest();
+void siTest();
 
 struct card * getBottomCard(int pile);
 struct card{ // we create a struct for a double linked list. This struct represents each card in a deck. 
@@ -123,7 +125,7 @@ void si(int *split){
     }
     else{
         nextcard = 0;
-        printf(" min %d decksize-min %d\n",min, 52-min);
+        //printf(" min %d decksize-min %d\n",min, 52-min);
         for (int j = min; j<=52-min-1;j++){
             shuffled[nextcard]= deck[j];
             nextcard++;
@@ -155,7 +157,7 @@ void sr(){
             }
         }
     }// now that we have finished the shuffled pile we want to replace the deck with the new shuffled deck.
-    for(int h = 0; h<decksize; h++){
+    for(int h = 0; h<52; h++){
         deck[h] = shuffled[h];
     }
 }
@@ -208,7 +210,7 @@ int cardtopos(struct card *card){
 }
 //this method goes through the deck and returns the card which matches the value and suit you input.
 struct card * findcard(int value, char suit){
-    for(int i=0; i<decksize; i++){
+    for(int i=0; i<52; i++){
         if(deck[i].value==value && deck[i].suit==suit){
             return &deck[i];
         }
@@ -227,9 +229,7 @@ int CommandInput() {
     }
     //Commands with only two characters
     if(strcmp(input, "SW") == 0) {
-        printf("hey6\n");
         SW();
-        printf("hey7\n");
     }
     else if(strcmp(input, "SR") == 0) {
         sr();
@@ -485,7 +485,6 @@ void P(){
             if(fromlen==5){
                 if(from[0]!='C' || from[2]!=':'){
                     printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                    printf("hey6\n");
                     continue;
                 }
                 else if(from[4]=='C'|| from[4]=='S'|| from[4]=='H' || from[4]=='D'){
@@ -511,14 +510,12 @@ void P(){
                 }
                 else{
                     printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                    printf("hey5\n");
                     continue;
                 }
             }
             else if(fromlen==2){
                 if(from[0]!='C'&& from[0]!='F'){
                     printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                    printf("hey4\n");
                     continue;
                 }
                 pile1 = (int) from[1]-'0'-1;
@@ -537,13 +534,11 @@ void P(){
             }
             else{
                 printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                printf("hey3\n");
                 continue;
             }
             if(tolen==2){
                 if(to[0]!='C' && to[0]!='F'){
                     printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                    printf("hey2\n");
                     continue;
                 }
                 pile2 = (int) to[1]-'0'-1;
@@ -562,7 +557,6 @@ void P(){
             }
             else{
                 printf("The input has to be in the format <pile>:<card>-><pile> or <pile>-><pile>\n");
-                printf("hey1\n");
                 continue;
             }
             //now we know the input is a valid format. We now want to check whether the move follows the rules.
@@ -579,7 +573,7 @@ void P(){
                     pile1 = (int) from[1]-'0'-1;
                     if(cardpos != pile1){// now we check if the card you are referencing is in the pile you are referencing.
                         printf("you are referencing a card in the wrong pile\n");
-                        printf("1 %d %d\n",cardpos, pile1);
+                        //printf("1 %d %d\n",cardpos, pile1);
                         continue;
                     }
                 }//now we check if you are moving a card into the same pile. we do this for all formats of from.
@@ -611,7 +605,7 @@ void P(){
                     printf("you have to move cards onto cards with a value which is 1 larger\n");
                     continue;
                 }
-                printf("%d%c\n",tempfrom->value,tempfrom->suit);
+                //printf("%d%c\n",tempfrom->value,tempfrom->suit);
                 movecard(pile2,tempfrom);
             }
             else if(from[0]=='F' && to[0]=='F'){
@@ -805,7 +799,7 @@ void setToDeck(int number[]) {
     }
 
     //sæt alle deck, last og next points til null
-    for (int i = 0; i < decksize; i++) {
+    for (int i = 0; i < 52; i++) {
         deck[i].next = NULL;
         deck[i].last = NULL;
     }
@@ -838,7 +832,7 @@ void setToDeck(int number[]) {
     int linenr = 0;
     int pile = 0;
 
-    for (int i = 0; i < decksize; i++) {
+    for (int i = 0; i < 52; i++) {
 //check if pile has space for a card
 //if there is space, then insert card i that pile and continue to next card
 //if not then go to the next pile
@@ -912,7 +906,7 @@ void printboard(){
     int pile = 0;
     int fcount = 1;
 
-    for (int i = 0; i < decksize; i++) {
+    for (int i = 0; i < decksize; i++) { //this is the reason why we need to keep track of how many cards are in the foundation pile. If we do not we get an error here.
         while (1) {
             //goes here there should not be a card
             if (cpile[pile] == linenr || cpile[pile] < linenr) {
@@ -1078,4 +1072,25 @@ void sd() {
     fprintf(fptr, "%s", cardsString);
     fclose(fptr);
 
+}
+void srTest() {
+    newdeck();
+    printf("before shuffle \n");
+    printdeck();
+    printf("\n");
+    sr();
+    printf("after shuffle \n");
+    printdeck();
+}
+
+void siTest() {
+    newdeck();
+    printf("Before split \n");
+    printdeck();
+    printf("\n");
+    int a = 13;
+    int *split = &a;
+    si(split);
+    printf("After split \n");
+    printdeck();
 }
