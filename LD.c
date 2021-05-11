@@ -24,7 +24,7 @@ void LD(char *fileName);
 
 //main:
 int main(void) {
-    char fileName[100] = "";
+    char fileName[100] = "C:\\Users\\Hildibjorg\\Desktop\\Deck.txt";
     LD(fileName);
 }
 
@@ -55,8 +55,7 @@ void LD(char *fileName) {
     //opens the file of given pathname
     FILE *fptr = fopen(fileName, "r");
 
-    if (fileName[0] == '\0' )
-    {
+    if (fileName[0] == '\0') {
         newdeck();
         return;
     }
@@ -69,7 +68,6 @@ void LD(char *fileName) {
 
         //start assigning the deck from file
     else {
-        char ch;
         char klo;
         int i = 0;
         int count = 1;
@@ -77,11 +75,11 @@ void LD(char *fileName) {
 
             if (klo == '\n') {
                 count = 1;
-                if (i != 0){
-                    deck[i].last = &deck[i-1];
+                if (i != 0) {
+                    deck[i].last = &deck[i - 1];
                 }
-                if (i != 51){
-                    deck[i].next = &deck[i+1];
+                if (i != 51) {
+                    deck[i].next = &deck[i + 1];
                 }
                 i++;
                 continue;
@@ -114,8 +112,6 @@ void LD(char *fileName) {
         fclose(fptr);
     }
 
-//check if all cards are present
 
-  printf("\nOK");
     return;
 }

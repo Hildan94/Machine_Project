@@ -20,21 +20,89 @@ struct card *cards[7]; //this repressents the different piles in the game
 struct card deck[];
 
 int main() {
-    int input;
-    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n"
-           "\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\t\t[]\tF1\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\t\t[]\tF2\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\t\t[]\tF3\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\n"
-           "[]\t[]\t[]\t[]\t[]\t[]\t[]\t\t[]\tF4\n"
-           "[]\t[]\t[]\n"
-           "\n"
-           "LAST Command:\n"
-           "Message: \n"
-           "INPUT >"
-    );
-    scanf("%d",&input);
+
 }
+void printboard(){
+int cpile[7] = {8,8,8,7,7,7,7};
+
+printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n"
+"\n");
+int linenr = 0;
+int pile = 0;
+int fcount = 1;
+
+for (int i = 0; i < decksize; i++) {
+while (1) {
+//goes here there should not be a card
+if (cpile[pile] == linenr || cpile[pile] < linenr) {
+printf("\t");
+pile = (pile + 1) % 7;
+if (pile == 0 ) {
+//check whether F-pile should be printed which is at the end of line 0, 2, 4 and 6
+if (linenr % 2 == 0){
+printf("\t\t");
+
+//check if card is set to being visible or not
+if(!deck[i].visible){
+printf("[]\t");
+printf("%c%d" ,'F',fcount);
+fcount++;
+}
+else{
+printf("[]\t");
+printf("\t");
+printf("%c%d" ,'F',fcount);
+fcount++;
+}
+}
+//reached end of line so print new line
+printf("\n");
+linenr = (linenr + 1);
+}
+}
+//goes here if there is space
+else {
+if(!deck[i].visible){
+printf("[]\t");
+}
+else{
+printf("%c%c",getValueAsString(deck[i].value),deck[i].suit);
+printf("\t");
+}
+pile = (pile + 1) % 7;
+if (pile == 0) {
+//check whether F-pile should be printed which is at the end of line 0, 2, 4 and 6
+if (linenr % 2 == 0){
+
+//check if card is set to being visible or not
+printf("\t\t");
+if(!deck[i].visible){
+printf("[]\t");
+printf("%c%d" ,'F',fcount);
+printf("\t");
+fcount++;
+}
+else{
+printf("[]\t");
+printf("\t");
+printf("%c%d" ,'F',fcount);
+fcount++;
+}
+}
+//reached end of line so print new line
+printf("\n");
+linenr = (linenr + 1);
+}
+break;
+}
+}
+}
+printf("\n\n"
+"LAST Command: LD\n"
+"Message: OK\n"
+"INPUT >");
+
+}
+
+}
+
