@@ -46,7 +46,7 @@ struct card *foundation[4];// This repressants the foundation piles.
 struct card deck[];//this represents the deck.
 int main(int argc, char *argv[]){
 
-
+    game();
     //newdeck();
     //printdeck();
     //int a = 26;
@@ -300,14 +300,14 @@ int CommandInput() {
 void LD(char *fileName) {
     int size = 0;
 
-    //opens the file of given pathname
-    FILE *fptr = fopen(fileName, "r");
 
     if (fileName == NULL )
     {
         newdeck();
         return;
     }
+    //opens the file of given pathname
+    FILE *fptr = fopen(fileName, "r");
 
     //should have a way
     if (fptr == NULL) {
