@@ -27,6 +27,7 @@ struct card * getPileCard(int pile, int pilenr);
 void printboard();
 void SW();
 void srTest();
+void siTest();
 
 struct card * getBottomCard(int pile);
 struct card{ // we create a struct for a double linked list. This struct represents each card in a deck.
@@ -43,12 +44,8 @@ struct card *foundation[4];// This repressants the foundation piles.
 
 struct card deck[];//this represents the deck.
 int main(int argc, char *argv[]){
-    game();
+    //game();
 
-    //newdeck();
-    //printdeck();
-    //int a = 26;
-    //int *split = &a;
     //struct card *card = &deck[3];
     //movecard(2,card);
     //printf("%d%c\n",cards[2]->value, cards[2]->suit);
@@ -1075,5 +1072,17 @@ void srTest() {
     printf("\n");
     sr();
     printf("after shuffle \n");
+    printdeck();
+}
+
+void siTest() {
+    newdeck();
+    printf("Before split \n");
+    printdeck();
+    printf("\n");
+    int a = 13;
+    int *split = &a;
+    si(split);
+    printf("After split \n");
     printdeck();
 }
