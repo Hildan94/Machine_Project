@@ -434,6 +434,10 @@ void P(){
     while(true){//this is the main loop.
         if(decksize<=0){//if all the cards are in the foundation piles decksize should be 1 because we degate it by 1 each time.
             printf("\n You have won\n");
+            decksize = 52;
+            for(int i =0; i<4;i++){
+                foundation[i]=NULL;
+            }
             break;
         }
         printboard(); // printboard();
@@ -448,6 +452,10 @@ void P(){
 
         //Commands with only two characters
         if(strcmp(input, "Q") == 0) {
+            decksize = 52;
+            for(int i =0; i<4;i++){
+                foundation[i]=NULL;
+            }
             break;
         }
         else {
