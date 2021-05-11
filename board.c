@@ -38,9 +38,9 @@ struct card{ // we create a struct for a double linked list. This struct represe
                     // It is not strictly needed but it may make programming easier.
 };
 struct card *cards[7]; //this repressents the different piles in the game
-struct card *foundation[4];
+struct card *foundation[4];// This repressants the foundation piles.
 
-struct card deck[];
+struct card deck[];//this represents the deck.
 int main(int argc, char *argv[]){
     game();
 
@@ -60,14 +60,14 @@ int main(int argc, char *argv[]){
     //printdeck();
 }
 
-void game(){
+void game(){//This method is used to contain the gameloop.
     while(true){
         CommandInput();
     }
 }
 
-int decksize = 0;
-void newdeck(){
+int decksize = 0;// we use decksize to go through cards in the game, and to find out if the game is finished.
+void newdeck(){//this method is called when you want a new deck. It'll create an unshuffled deck. AC->KS
     // to initialize we first want to create all cards. We'll be storing them in the array deck.
     char suits[] = {'C','D','H','S'};
     decksize =52;
@@ -83,13 +83,13 @@ void newdeck(){
         }        
     }
 }
-void printdeck(){
+void printdeck(){//this method prints each card in the deck.
     for(int i = 0 ; i <= 51; i++){
         printf("index %d: %c%d \n", i, deck[i].suit, deck[i].value);
     }
 }
 
-                    // This function is supposed to mix the card. It takes a pointer to an integer as an input. 
+                    // This function is supposed to mix the deck. It takes a pointer to an integer as an input. 
                     // Because this is a pointer it's possible to input a NULL pointer to the function.
                     // If the input is NULL this function will randomly select a valid value for split.
 
@@ -98,45 +98,46 @@ void si(int *split){
     if (split == NULL){// first we check if split is NULL, in which case we select a value for split.
         time_t t;
         srand((unsigned) time(&t));
-        int a = (rand()%(decksize-1)) +1; //we want numbers from 1 to decksize.
+        int a = (rand()%(52-1)) +1; //we want numbers from 1 to decksize.
         split = &a;
         printf("split was not specified, random split %d was chosen\n", *split);
     }
     //printf("%d %d \n", decksize, *split);
-    if(*split > decksize || *split <=0){// if the split is either larger than the size of the deck, or smaller than or equal to null we return an error.
+    if(*split > 52 || *split <=0){// if the split is either larger than the size of the deck, or smaller than or equal to null we return an error.
         printf("split size error \n");
         return;
     }// now we shuffle the cards into the shuffled pile.
-    struct card shuffled[decksize];
+    struct card shuffled[52];
     int nextcard = 1;   // next card is used to find the next card in both splits.
-    int min = MIN(*split, decksize-*split); //We use min here because by computing this it makes it possible to split the deck without actually creating another array.
+    int min = MIN(*split, 52-*split); //We use min here because by computing this it makes it possible to split the deck without actually creating another array.
                                             // min denotes how far we have to travel down the two splits until there are no more cards in one of them.
-    for (int i = decksize-min*2; i<52; i=i+2){ // we use i to find the position we want to shuffle a card to, and we do two cards each loop.
-        shuffled[i]=deck[decksize-*split-nextcard]; //The first split starts from the card split down from the top of the deck.
-        shuffled[i+1]=deck[decksize-nextcard]; // The second card is chosen from the top of the deck. 
+    for (int i = 52-min*2; i<52; i=i+2){ // we use i to find the position we want to shuffle a card to, and we do two cards each loop.
+        shuffled[i]=deck[52-*split-nextcard]; //The first split starts from the card split down from the top of the deck.
+        shuffled[i+1]=deck[52-nextcard]; // The second card is chosen from the top of the deck. 
         nextcard++;
     }// when there are no more cards in one of the splits we have to insert the rest of the cards at the bottom of the shuffled pile.
-    if(*split<=decksize/2){// The method is different depending on which split has cards left.
-        for (int j = 0; j<=decksize-1-min*2;j++){
+    if(*split<=52/2){// The method is different depending on which split has cards left.
+        for (int j = 0; j<=52-1-min*2;j++){
             shuffled[j]= deck[j];
         }
     }
     else{
         nextcard = 0;
-        printf(" min %d decksize-min %d\n",min, decksize-min);
-        for (int j = min; j<=decksize-min-1;j++){
+        printf(" min %d decksize-min %d\n",min, 52-min);
+        for (int j = min; j<=52-min-1;j++){
             shuffled[nextcard]= deck[j];
             nextcard++;
         }
     }//lastly we have to make the shuffled deck our new deck, we do this by overwriting the deck with the values of the shuffled deck.
-    for(int h = 0; h<decksize; h++){
+    for(int h = 0; h<52; h++){
         deck[h] = shuffled[h];
     }
 }
 
+//this function goes through each card in the deck and tries to place it in a random position of the shuffled pile. It does this through brute force.
 void sr(){
     //first we create the shuffled pile. We also initialize our seed for the rand command.
-    struct card shuffled[decksize];
+    struct card shuffled[52];
     time_t t;
     srand((unsigned) time(&t));
     int randpos;
@@ -147,7 +148,7 @@ void sr(){
     for(int i = 0; i<52; i++){
         while(true){ // because we are doing random positions we have no way of knowing whether a random position chosen has alreade been taken.
                      // This means we'll have to continue choosing new positions until we find an available space.
-            randpos =(rand()%(decksize));
+            randpos =(rand()%(52));
             if(shuffled[randpos].suit==NULL){ // we check suit because the array doesn't contain pointers, so the best way to check whether it has been taken is by checking the values.
                 shuffled[randpos]=deck[i];
                 break;
@@ -192,7 +193,7 @@ int cardtopos(struct card *card){
     //We can use the double linked list structure to travel in reverse from the card to the tail.
     struct card *prev = card;
     while(true){
-        printf("last = %d%c\n", prev->value,prev->suit);
+        
         if(prev->last == NULL){
             break;
         }
@@ -205,7 +206,7 @@ int cardtopos(struct card *card){
         }
     }
 }
-
+//this method goes through the deck and returns the card which matches the value and suit you input.
 struct card * findcard(int value, char suit){
     for(int i=0; i<decksize; i++){
         if(deck[i].value==value && deck[i].suit==suit){
@@ -214,7 +215,7 @@ struct card * findcard(int value, char suit){
     }
 }
 
-
+//this method gets an input from the user using the commandline. It then compares the input with a few premade commands, and depending on the input a function is called.
 int CommandInput() {
     //Used to read the input
     if(fgets(input, 50, stdin) == NULL){
@@ -293,11 +294,8 @@ int CommandInput() {
 
     return 0;
 }
-struct temp{
-    char card[2];
-};
-
-struct temp cur_card[52];
+//LD takes a pointer to a filename. This filename variable needs to be the complete path to the file, or NULL if you would like to start a new deck. 
+//If the filename is not valid an error message is printed.
 void LD(char *fileName) {
 
     //opens the file of given pathname
@@ -364,7 +362,24 @@ void LD(char *fileName) {
   printf("\nOK");
     return;
 }
+//SORRY. This is a very bad implementation of P. It is  over 300 lines long, and very complex, and likely riddled with bugs. 
+//We had a big timecrunch because members of the group spend much longer than agreed upon on some of the methods I wanted to use for testing purposes.
+//I had also expected to be able to delegate parts of the method for other people to finnish, but I had to make it alone.
+
+//There is a brief description of the method in the report, it says the following:
+/*"There are 3 main parts in the function. The first - before the while loop which contains the actual game - is the initialization part.
+  In this part we start by distributing the cards onto the board, and setting the visibility of the individual cards.
+  The next part is the input handling. Here we first check whether the input is 'Q' in which case we break the while loop.
+  Otherwise we split the message in a \textit{from}, and \textit{to} string. 
+  These messages are split when they encounter the '->' arrow symbol, which is a part of the game move format. 
+  Everything left of the arrow is added to the \textit{from} string, and everything right of it is likewise added to the \textit{to} string. \
+  The last part is where the complexity increases. The purpose of this part is to check the validity of moves, and do the moves if they are valid.
+  Here we have three sections. Moves from the foundation pile to the columns, moves from the columns to the foundation pile, and moves from the columns to other columns.
+  Each of these types of moves have different validation criteria."*/
+  //just to specify. The function returns nothing, and handles all the game logic and setup. 
+
 void P(){
+    //First we initialize the game board
     int piles[6] = {1,6,7,8,9,10};
     for (int i = 0; i < 52; i++){
         deck[i].last =NULL;
@@ -399,12 +414,12 @@ void P(){
     cards[5]->next->next->next->next->visible=false;
     cards[6]->next->next->next->next->visible=false;
     cards[6]->next->next->next->next->next->visible=false;
-    while(true){
-        if(decksize<=0){
+    while(true){//this is the main loop.
+        if(decksize<=0){//if all the cards are in the foundation piles decksize should be 1 because we degate it by 1 each time. 
             printf("\n You have won\n");
             break;
         }
-        printboard();
+        printboard(); // printboard();
         if(fgets(input, 50, stdin) == NULL){
             return 0;
         }
@@ -668,6 +683,7 @@ void P(){
         }
     }
 }
+// This method takes a char which represents the card's value, such as 'A' or '2'and returns an integer that represents the card's value.
 int valueFromChar(char value){
     if(value=='A')
         return 1;
@@ -685,6 +701,8 @@ int valueFromChar(char value){
     }
     return 0;   
 }
+//This method goes through a column pile specified by "int pile" 0-6 representing C1-C7. When it reaches the bottom it returns the buttom card. 
+//If the pile has no cards, it returns NULL
 struct card * getBottomCard(int pile){
 //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
     
@@ -703,6 +721,9 @@ struct card * getBottomCard(int pile){
         }
     }
 }
+//Because we implemented P late I 3 individual methods that would move cards. This one moves cards from foundations into the column piles.
+//You give the method a position which signifies the column: 0-6 -> C1-C7. And an integer found: 0-3 -> F1-F4. 
+//It then moves the top card from the foundation to the bottom of the column.
 void movefromfound(int position, int found){
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
     struct card* card = foundation[found]; 
@@ -734,8 +755,10 @@ void movefromfound(int position, int found){
     }
     decksize++;
 }
+//This one moves cards from column piles into the foundation piles.
+//You give the method a position which signifies the foundation: 0-3 -> F1-F4. And the card you want to have moved to the foundation. 
+//It then moves the card into the foundation. I didn't have time to think about checking for errors. That is done in the method P();
 void movetofound(int position, struct card* card){
-    printf("Hello Kitty position %d \n",position);
     //we need to dereference the card and the cards connected to it. We do not have to do anything with the next card because we want to move any next cards with it.
     if(card->last!=NULL){
         card->last->visible = true;
@@ -756,6 +779,11 @@ void movetofound(int position, struct card* card){
     }
     decksize--;
 }
+//Set to deck reinitialize all cards so they do not reference each other, afterwards it places the cards into the 7 columns depending on your specifications.
+//the integer array number is used to describe how many cards are to be placed in each pile. The first 6 elements of number correspond to the first six columns C1-C6. 
+//The rest of the cards not specified in the array are placed in column 7.
+// we only check if the total for the first six rows of the number array is more than 52 in which case we return an error.
+
 void setToDeck(int number[]) {
 
     //sæt alle cards[] points til null
@@ -831,7 +859,7 @@ void setToDeck(int number[]) {
         }
     }
 }
-
+//The SW method specifies a format for the cards using the settodeck method, and then sets all cards to visible and prints the board using the printboard() method.
 void SW() {
     int number[6] = {8, 8, 8, 7, 7, 7};
     setToDeck(number);
@@ -843,6 +871,8 @@ void SW() {
     }
     printboard();
 }
+//The print board method is used to print the board state. It's not ideal, but the method uses "cpile" to find out how many cards are in each pile. then it prints each card
+//cpile is initialized at the start by traversing the columns. Again it would be better to just do this at runtime but allas. The method prints "[]" if a card is invisible. 
 void printboard(){
     int cpile[7] = {0,0,0,0,0,0,0};
     //We need to find cpile[] even though this isn't the best way to do it.
@@ -959,6 +989,7 @@ void printboard(){
         printf("4 %d%c\n",foundation[3]->value,foundation[3]->suit);
     }*/
 }
+//This method returns the corresponding character which represents each value. Such as 'A' -> 1 or '7'->7
 char getValueAsString(int number) {
     char result = 'b';
 
@@ -985,6 +1016,8 @@ char getValueAsString(int number) {
 
     return result;
 }
+//gets the pilenr'th card from a column pile specified by the integer pile. pile should be an integer between 0-6 corresponding to the columns C1-C7.
+//pilenr denotes how far we should go down the pile.
 struct card * getPileCard(int pile, int pilenr){
     //if the position in the cards array is empty we can just add the car to the cards array as the tail.
     if(cards[pile]==NULL){
@@ -993,7 +1026,7 @@ struct card * getPileCard(int pile, int pilenr){
     //we create a next pointer which is going to be used to travel from the tail to the head of the linked list.
     struct card *next = cards[pile]; 
     while (true){
-        if(pilenr==0){//when we reach the head we connect the card to the head as follows. 
+        if(pilenr==0 || next->next==NULL){//when we reach the head we connect the card to the head as follows. 
             return next;
         }
         else {
@@ -1002,6 +1035,7 @@ struct card * getPileCard(int pile, int pilenr){
         }
     }
 }
+//SD cannot take a file name. It just stores the current deck into the file named "cards.txt".
 void sd() {
     char cardsString[157];
 
