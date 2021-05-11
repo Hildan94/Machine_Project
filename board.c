@@ -43,7 +43,7 @@ struct card{ // we create a struct for a double linked list. This struct represe
 struct card *cards[7]; //this repressents the different piles in the game
 struct card *foundation[4];// This repressants the foundation piles.
 
-struct card deck[];//this represents the deck.
+struct card deck[52];//this represents the deck.
 int main(int argc, char *argv[]){
 
     game();
